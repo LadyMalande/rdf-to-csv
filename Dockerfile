@@ -15,6 +15,9 @@ COPY . .
 # Install the dependencies from the Gemfile
 RUN bundle install
 
+# Set the preferred API URL as an environment variable - the URL is getting called in the form sending
+ENV API_URL=https://rdf-to-csvw.onrender.com/rdftocsvw
+
 # Build the Jekyll site
 RUN bundle exec jekyll build
 
