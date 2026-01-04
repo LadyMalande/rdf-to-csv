@@ -2,6 +2,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     {% assign site.language = page.language %}
     <!-- Data from _config.yml get stored in the `site` global variable -->
     <meta name="description" content="{{ site.description[site.lang] }}">
@@ -10,8 +15,12 @@
     <link rel="stylesheet" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/assets/main.css">
     <link rel="stylesheet" type="text/css" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/assets/dropBox.css" />
     <link rel="shortcut icon" type="image/ico" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/favicon.ico">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
-    <script src="https://kit.fontawesome.com/7ae9666a88.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" 
+          integrity="sha384-XHiu4muUWNU2d4H6T7VRGmLPdFqGJLJKsMGy8fNdBVRFmKmqLKDmJNS8Qk3AHVWP" 
+          crossorigin="anonymous"/>
+    <script src="https://kit.fontawesome.com/7ae9666a88.js" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
     <link rel="alternate"
       hreflang="{{site.default_lang}}"
       href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}{{page.permalink}}" />

@@ -1,5 +1,8 @@
 // Functions used in HTML files containing the form to submit parameters for RDF to CSV conversion
 
+// Initialize rate limiter to prevent abuse (max 5 requests per minute)
+const rateLimiter = new RateLimiter(5, 60000);
+
 // The form for submitting parameters for RDF to CSV conversion
 const form = document.querySelector("#rdfandconfiguration");
 // Place for information about the fetched response
@@ -27,11 +30,44 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
 
   const form = event.target;
   const formData = new FormData(form);
+  const pageLang = document.documentElement.lang;
 
   // Clear any previous error message
   errorMessageElement.style.color = 'red';
   errorMessageElement.style.display = 'none'; // Hide any previous message
   errorMessageElement.innerText = ''; // Clear previous content
+
+  // SECURITY: Rate limiting check
+  if (!rateLimiter.allowRequest()) {
+    const waitTime = Math.ceil(rateLimiter.getTimeUntilNextRequest() / 1000);
+    errorMessageElement.style.display = 'block';
+    setTextSafely(errorMessageElement, 
+      pageLang === 'cs' 
+        ? `Příliš mnoho požadavků. Počkejte prosím ${waitTime} sekund.`
+        : `Too many requests. Please wait ${waitTime} seconds.`);
+    return;
+  }
+
+  // SECURITY: Validate form data before submission
+  const validation = validateFormData(formData);
+  if (!validation.isValid) {
+    errorMessageElement.style.display = 'block';
+    setTextSafely(errorMessageElement, validation.errors.join(' '));
+    return;
+  }
+
+  // SECURITY: Validate URL if provided
+  const fileURL = formData.get('fileURL');
+  if (fileURL && fileURL.trim() !== '') {
+    if (!isValidURL(fileURL.trim())) {
+      errorMessageElement.style.display = 'block';
+      setTextSafely(errorMessageElement,
+        pageLang === 'cs'
+          ? 'Neplatná URL adresa. Použijte prosím platnou http nebo https URL.'
+          : 'Invalid URL. Please use a valid http or https URL.');
+      return;
+    }
+  }
 
   try {
 
@@ -61,12 +97,12 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
     anchorTag.target = '_blank';
     let inputField = fileURLElement.value.trim();
     if (inputField != "") {
-      console.log("fileURLElement.textContent " + fileURLElement.textContent);
-      anchorTag.download = fileURLElement.textContent + 'resultingCSVW.zip';
+      // SECURITY: Sanitize filename from URL
+      const sanitizedURL = sanitizeText(fileURLElement.value.split('/').pop().split('?')[0]);
+      anchorTag.download = sanitizedURL + '-resultingCSVW.zip';
     } else {
-      const fileName = fileInput.files[0].name;
-      console.log("fileURLElement.textContent " + fileURLElement.textContent);
-      console.log("fileName " + fileName);
+      // SECURITY: Sanitize filename before use
+      const fileName = sanitizeText(fileInput.files[0].name);
       anchorTag.download = fileName + ".zip";
     }
     //anchorTag.download = 'resultingCSVW.zip'; 
@@ -78,26 +114,23 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
     const pageLang = document.documentElement.lang;
     if (pageLang == "cs") {
       errorMessageElement.style.color = 'green';
-      errorMessageElement.innerText = `Konvertovaný soubor úspěšně dorazil.`;
+      setTextSafely(errorMessageElement, 'Konvertovaný soubor úspěšně dorazil.');
     } else {
       errorMessageElement.style.color = 'green';
-      errorMessageElement.innerText = `The converted file has been successfully delivered.`;
+      setTextSafely(errorMessageElement, 'The converted file has been successfully delivered.');
     }
 
 
 
   } catch (e) {
-    // If an error occurs, display the error message
+    // SECURITY: Display safe error message without exposing technical details
     errorMessageElement.style.display = 'block';
     const pageLang = document.documentElement.lang;
-    if (pageLang == "cs") {
-      errorMessageElement.innerText = `Nastal problém s vaším požadavkem: ${e.message}`;
-    } else {
-      errorMessageElement.innerText = `There was a problem with your request: ${e.message}`;
-    }
+    const safeMessage = getSafeErrorMessage(e, pageLang);
+    setTextSafely(errorMessageElement, safeMessage);
 
-    console.error(e);
-
+    // Log detailed error for debugging (only visible in browser console)
+    console.error('Form submission error:', e);
   }
 });
 
@@ -155,9 +188,11 @@ fileInput.addEventListener('change', function () {
   if (fileInput.files.length > 0) {
     // Get the name of the file
     const fileName = fileInput.files[0].name;
+    // SECURITY: Sanitize filename before display
+    const sanitizedName = sanitizeText(fileName);
     // Change the span text to the file name
-    const truncatedFileName = truncateString(fileName, 17);
-    spanForFileInput.textContent = (truncateString.length == fileName) ? fileName : truncatedFileName + "...";
+    const truncatedFileName = truncateString(sanitizedName, 17);
+    spanForFileInput.textContent = (truncateString.length == sanitizedName) ? sanitizedName : truncatedFileName + "...";
   } else {
     // If no file is selected, revert to the original text
     const pageLang = document.documentElement.lang;

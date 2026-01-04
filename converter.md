@@ -17,7 +17,9 @@ How to use the RDFtoCSV Converter:
 <!-- English version of the converter page --> 
 <!-- Form for submitting parameters for conversion -->
 <form id="rdfandconfiguration" action="https://rdf-to-csvw.onrender.com/rdftocsvw" method="post">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" 
+            integrity="sha384-6/h6KNezXTtLgipPS0pRMR6TqELBUT3i3n1KNLuL/0CuDw1ovx9qgLq0fCZxWbVm" 
+            crossorigin="anonymous"></script>
     <!-- Div to choose a file or to input file URL -->
     <div id="choose-file-or-url">
         <!-- Choose a file div -->
@@ -84,6 +86,24 @@ How to use the RDFtoCSV Converter:
             <input type="radio" name="firstNormalForm" value="false" />
             Cells can contain lists of values
         </label>
+        <br />
+        <!-- Preferred Languages parameter input -->
+        <label for="preferredLanguages">Preferred language codes (comma-separated, e.g., 'en,cs,de'):</label><br />
+        <input type="text" id="preferredLanguages" name="preferredLanguages" placeholder="en,cs" pattern="^[a-zA-Z]{2,3}(,[a-zA-Z]{2,3})*$" />
+        <br /><br />
+        <!-- Naming Convention dropdown parameter input -->
+        <label for="namingConvention">CSV header naming convention:</label><br />
+        <select id="namingConvention" name="namingConvention">
+            <option value="">Default (no change)</option>
+            <option value="camelCase">camelCase</option>
+            <option value="PascalCase">PascalCase</option>
+            <option value="snake_case">snake_case</option>
+            <option value="SCREAMING_SNAKE_CASE">SCREAMING_SNAKE_CASE</option>
+            <option value="kebab-case">kebab-case</option>
+            <option value="Title Case">Title Case</option>
+            <option value="dot.notation">dot.notation</option>
+            <option value="original">original</option>
+        </select>
         <br />
     </div>
     <br />

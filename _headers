@@ -1,0 +1,31 @@
+# Security Headers Configuration for GitHub Pages
+
+# This file demonstrates the security headers that should be configured
+# GitHub Pages has limited support for custom headers, so some of these
+# may need to be implemented via a CDN like Cloudflare or Netlify
+
+# If using Netlify, rename this to _headers and place in root
+# If using Cloudflare, configure these in the dashboard
+
+/*
+  # Content Security Policy - Prevents XSS and injection attacks
+  # Adjust based on your actual external resources
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://kit.fontawesome.com; connect-src 'self' https://rdf-to-csvw.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://rdf-to-csvw.onrender.com;
+  
+  # Prevents clickjacking attacks
+  X-Frame-Options: DENY
+  
+  # Prevents MIME type sniffing
+  X-Content-Type-Options: nosniff
+  
+  # Enables XSS protection in older browsers
+  X-XSS-Protection: 1; mode=block
+  
+  # Enforces HTTPS
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  
+  # Controls referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Permissions Policy (formerly Feature Policy)
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
