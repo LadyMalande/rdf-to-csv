@@ -67,6 +67,9 @@ plugins:
   - jekyll-seo-tag
   - jekyll-redirect-from
   - jekyll-polyglot
+
+polyglot:
+  parallel_localization: false
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
