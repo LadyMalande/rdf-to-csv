@@ -113,8 +113,8 @@ Jak použít RDFtoCSV konvertor:
     <br />
     <!-- Web service status indicator changing pictures and text depending on the responsiveness of connected web service -->
     <div id="statusIndicator">
-        <img id="loadingWheel" src="../loading.gif" alt="Loading" style="display: none;" />
-        <img id="greenArrow" src="../check.jpg" alt="OK" style="display: none;" />
+        <img id="loadingWheel" src="{{ 'loading.gif' | relative_url }}" alt="Loading" style="display: none;" />
+        <img id="greenArrow" src="{{ 'check.jpg' | relative_url }}" alt="OK" style="display: none;" />
         <span id="healthCheckStatus">Webová služba se načítá...</span>
     </div>
     <!-- Form Submit Button, changes style according to service status indicator -->
