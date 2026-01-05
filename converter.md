@@ -18,7 +18,6 @@ How to use the RDFtoCSV Converter:
 <!-- Form for submitting parameters for conversion -->
 <form id="rdfandconfiguration" action="https://rdf-to-csvw.onrender.com/rdftocsvw" method="post">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" 
-            integrity="sha384-6/h6KNezXTtLgipPS0pRMR6TqELBUT3i3n1KNLuL/0CuDw1ovx9qgLq0fCZxWbVm" 
             crossorigin="anonymous"></script>
     <!-- Div to choose a file or to input file URL -->
     <div id="choose-file-or-url">
