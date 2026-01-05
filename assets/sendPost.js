@@ -449,7 +449,7 @@ function deactivateButton() {
 
 // Show the parameters hidden behind the More parameters button
 function toggleContent() {
-  var x = document.getElementById("toggleContent");
+  var x = document.getElementById("moreParametersContent");
   if (x.style.display === "none") {
     x.style.display = "block";
   } else {

@@ -60,7 +60,7 @@ How to use the RDFtoCSV Converter:
     <br />
     <!-- Button for uncovering more parameters options -->
     <button id="toggleButton" onclick="toggleContent()">More parameters...</button>
-    <div id="toggleContent" style="display: none;">
+    <div id="moreParametersContent" style="display: none;">
         <!-- Conversion method parameters input -->
         <label>Choose a conversion method:</label><br />
         <label>
