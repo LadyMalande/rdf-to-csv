@@ -61,7 +61,7 @@ Jak použít RDFtoCSV konvertor:
     </div>
     <br />
     <!-- Button for uncovering more parameters options -->
-    <button type="button" id="toggleButton" onclick="toggleContent()">Více parametrů...</button>
+    <button type="button" id="toggleButton" onclick="toggleContent()" title="Klikněte pro vybrání dalších parametrů">Více parametrů...</button>
     <div id="moreParametersContent" style="display: none;">
         <!-- Conversion method parameters input -->
         <label>Vyberte metodu konverze:</label><br />

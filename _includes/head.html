@@ -12,9 +12,9 @@
     <meta name="description" content="{{ site.description[site.lang] }}">
     <meta http-equiv="Content-Language" content="{{site.lang}}">
     {%- seo -%}
-    <link rel="stylesheet" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/assets/main.css">
-    <link rel="stylesheet" type="text/css" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/assets/dropBox.css" />
-    <link rel="shortcut icon" type="image/ico" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/favicon.ico">
+    <link rel="stylesheet" href="{{ 'assets/main.css' | relative_url }}">
+    <link rel="stylesheet" type="text/css" href="{{ 'assets/dropBox.css' | relative_url }}" />
+    <link rel="shortcut icon" type="image/ico" href="{{ 'favicon.ico' | relative_url }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" 
           crossorigin="anonymous"/>
     <script src="https://kit.fontawesome.com/7ae9666a88.js" 
@@ -37,5 +37,8 @@
     {%- if jekyll.environment == 'production' and site.google_analytics -%}
       {%- include google-analytics.html -%}
     {%- endif -%}
+    
+    <!-- Security: Load security utilities before other scripts -->
+    <script src="{{ 'assets/security.js' | relative_url }}"></script>
   </head>
   
