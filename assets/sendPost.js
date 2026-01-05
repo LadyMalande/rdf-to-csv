@@ -396,26 +396,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Function for pinging web service if its available
 function checkServiceHealth() {
-  fetch('https://rdf-to-csvw.onrender.com/')
+  fetch('https://rdf-to-csvw.onrender.com/', {
+    mode: 'no-cors' // Allow request without CORS, but can't read response
+  })
     .then(response => {
-      if (response.ok) {
-        // If the response is OK, show the green arrow and hide the spinning wheel
-        document.getElementById('greenArrow').style.display = 'block';
-        document.getElementById('loadingWheel').style.display = 'none';
-        const pageLang = document.documentElement.lang;
-        if (pageLang == "cs") {
-          healthCheckStatusElement.textContent = "Webová služba je připravená!";
-        } else {
-          healthCheckStatusElement.textContent = "The Web Service is ready!";
-        }
-        activateButton();
+      // With no-cors mode, we can't check response.ok, but if fetch succeeds, service is up
+      // If the fetch completes without error, assume service is ready
+      document.getElementById('greenArrow').style.display = 'block';
+      document.getElementById('loadingWheel').style.display = 'none';
+      const pageLang = document.documentElement.lang;
+      if (pageLang == "cs") {
+        healthCheckStatusElement.textContent = "Webová služba je připravená!";
       } else {
-        // If the response is not OK, show the spinning wheel again
-        showLoadingWheel();
+        healthCheckStatusElement.textContent = "The Web Service is ready!";
       }
+      activateButton();
     })
     .catch(error => {
       // If there is an error or the server does not respond, show the spinning wheel
+      console.error('Health check failed:', error);
       showLoadingWheel();
     });
 }

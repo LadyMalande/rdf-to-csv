@@ -211,13 +211,25 @@ label.label input[type="file"] {
 #toggleButton::after {
   content: "";
   position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
+  margin-bottom: 5px;
 }
 
-/* Placeholder for custom tooltip text, initially empty */
+/* Show tooltip on hover with custom text */
 #toggleButton[data-tooltip]:hover::after {
-  content: attr(data-tooltip); /* Use custom tooltip text from data attribute */
+  content: attr(data-tooltip);
+  opacity: 1;
 }
 
 /* Hover effect for button */
