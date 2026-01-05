@@ -50,11 +50,11 @@ Jak použít RDFtoCSV konvertor:
     <div class="top-and-bottom-margin">
         <label>Kolik chcete vytvořit CSV tabulek:</label>
         <label>
-            <input type="radio" name="tables" id="basicQuery" value="basicQuery" checked="checked" />
+            <input type="radio" name="tables" id="basicQuery" value="ONE" checked="checked" />
             Jedna tabulka
         </label>
         <label>
-            <input type="radio" name="tables" id="splitQuery" value="splitQuery" />
+            <input type="radio" name="tables" id="splitQuery" value="MORE" />
             Více tabulek <a href="#comment-2"><sup class="comment-marker" data-index="2">[2]</sup></a>
         </label>
         <br />
