@@ -67,6 +67,11 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
           : 'Invalid URL. Please use a valid http or https URL.');
       return;
     }
+    // If URL is provided, remove the file parameter (URL takes priority)
+    formData.delete('file');
+  } else {
+    // If URL is not provided, remove the empty URL parameter
+    formData.delete('fileURL');
   }
 
   try {
