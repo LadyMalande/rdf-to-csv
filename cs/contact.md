@@ -16,7 +16,7 @@ Můžete mě kontaktovat buď na
 Tento projekt se skládá ze 3 repozitářů:
 - Klíčový [repozitář knihovny](https://github.com/LadyMalande/RDFtoCSV) obsahující implementaci projektu
 - [Repozitář webové služby](https://github.com/LadyMalande/RDFtoCSVWAPI) 
-- Tato webová stránka [repozitář webového klienta](https://github.com/LadyMalande/rdf-to-csv.github.io), kde můžete konvertor vyzkoušet živě
+- Tato webová stránka [repozitář webového klienta](https://github.com/LadyMalande/rdf-to-csv), kde můžete konvertor vyzkoušet živě
 
 
 Všechny repozitáře jsou veřejné, poté co byla práce odevzdána.

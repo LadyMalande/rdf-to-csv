@@ -29,14 +29,14 @@ github_username:  ladymalande
 
 domain: ladymalande.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
 url: "https://ladymalande.github.io"  # Production development URL
-baseurl: "/rdf-to-csv.github.io"                   # Production base url
+baseurl: "/rdf-to-csv"                   # Production base url
 
 # For running the project locally for debugging, make sure the production values get overriden by correct run command:
 # bundle exec jekyll serve --config _config.yml,_config_dev.yml
 
 production:
   url: "https://ladymalande.github.io"
-  baseurl: "/rdf-to-csv.github.io"
+  baseurl: "/rdf-to-csv"
 
 development:
   url: "http://localhost:4000"
