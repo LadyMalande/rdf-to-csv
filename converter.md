@@ -140,5 +140,5 @@ How to use the RDFtoCSV Converter:
 
 <script
     type="text/javascript"
-    src="{% if jekyll.environment == 'production' %}{{site.production.url}}{{site.production.baseurl}}{% else %}{{site.development.url}}{{site.development.baseurl}}{% endif %}/{{ 'assets/sendPost.js' | relative_url }}"
+    src="{{ 'assets/sendPost.js' | relative_url }}"
 ></script>
