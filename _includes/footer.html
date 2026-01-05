@@ -1,32 +1,32 @@
-<footer class="site-footer h-card">
+<footer class="site-footer bg-light mt-5 py-4 border-top">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
-  <div class="wrapper">
+  <div class="container">
 
-    <h2 class="footer-heading">{{ site.name[page.language] | escape }}</h2>
+    <h5 class="footer-heading mb-3">{{ site.name[page.language] | escape }}</h5>
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li class="p-name">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <ul class="list-unstyled contact-list">
+          <li class="mb-2">
             {%- if site.author -%}
-              {{ site.author | escape }}
+              <strong>{{ site.author | escape }}</strong>
             {%- else -%}
-              {{ site.name[page.language] | escape }}
+              <strong>{{ site.name[page.language] | escape }}</strong>
             {%- endif -%}
             </li>
             {%- if site.email -%}
-            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+            <li><a class="text-decoration-none" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
             {%- endif -%}
         </ul>
       </div>
 
-      <div class="footer-col footer-col-2">
+      <div class="col-md-4 mb-3">
         {%- include social.html -%}
       </div>
 
-      <div class="footer-col footer-col-3">
-        <p>{{- site.description[page.language] | escape -}}</p>
+      <div class="col-md-4">
+        <p class="text-muted">{{- site.description[page.language] | escape -}}</p>
       </div>
     </div>
 

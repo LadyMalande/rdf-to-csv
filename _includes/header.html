@@ -1,70 +1,68 @@
 <header class="site-header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+      {%- assign default_paths = site.pages | map: "path" -%}
+      {%- assign page_paths = site.header_pages | default: default_paths -%}
+      {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
+      
+      <a class="navbar-brand fw-bold" href="
+        {% if jekyll.environment == 'production' and page.language == 'en' %}
+            {{ "/converter" | prepend: site.production.baseurl }}
+          {% elsif jekyll.environment == 'production' and page.language == 'cs' %}
+            {{ "/cs/converter" | prepend: site.production.baseurl }}
+          {% elsif page.language == 'en' %}
+            {{ "/converter" | prepend: site.development.baseurl }}
+          {% else %}
+            {{ "/cs/converter" | prepend: site.development.baseurl }}
+        {% endif %}">
+        {{ site.title | escape }}
+      </a>
 
-  <div class="wrapper">
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
-    {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-    <a class="site-title" rel="author" href="
-      {% if jekyll.environment == 'production' and page.language == 'en' %}
-          {{ "/converter" | prepend: site.production.baseurl }}
-        {% elsif jekyll.environment == 'production' and page.language == 'cs' %}
-          {{ "/cs/converter" | prepend: site.production.baseurl }}
-        {% elsif page.language == 'en' %}
-          {{ "/converter" | prepend: site.development.baseurl }}
-        {% else %}
-          {{ "/cs/converter" | prepend: site.development.baseurl }}
-      {% endif %}">
-      {{ site.title | escape }}
-    </a>
-
-    {%- if titles_size > 0 -%}
-      <nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-        <div class="trigger">
-          {% for p in site.pages %}
-            {% if p.language == page.language %} 
-              {% if p.redirect_to == nil %}
-                <!--<a href="{{ p.url | prepend: site.baseurl }}" class="margin-to-right"> -->
-                  <a href="{% if jekyll.environment == 'production' %}{{ p.url | prepend: site.production.baseurl }}{% else %}{{ p.url | prepend: site.development.baseurl }}{% endif %}" class="margin-to-right">
-                  {{ p.title }}
-                </a>
+      {%- if titles_size > 0 -%}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% for p in site.pages %}
+              {% if p.language == page.language %} 
+                {% if p.redirect_to == nil %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% if jekyll.environment == 'production' %}{{ p.url | prepend: site.production.baseurl }}{% else %}{{ p.url | prepend: site.development.baseurl }}{% endif %}">
+                      {{ p.title }}
+                    </a>
+                  </li>
+                {% endif %}
               {% endif %}
+            {% endfor %}
+          </ul>
+          
+          <div class="d-flex gap-2">
+            {% if page.name contains "index" %}
+              <a class="btn btn-outline-primary btn-sm" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/">
+                <span class="fi fi-gb"></span>
+                <span class="fi fi-us"></span>
+                EN
+              </a>
+              <a class="btn btn-outline-primary btn-sm" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: "/cs" }}{% else %}{{ site.development.baseurl | append: "/cs" }}{% endif %}">
+                <span class="fi fi-cz"></span>
+                CS
+              </a>
+            {% else %}
+              <a class="btn btn-outline-primary btn-sm" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: page.handle }}{% else %}{{ site.development.baseurl | append: page.handle }}{% endif %}">
+                <span class="fi fi-gb"></span>
+                <span class="fi fi-us"></span>
+                EN
+              </a>
+              <a class="btn btn-outline-primary btn-sm" href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: "/cs" | append: page.handle }}{% else %}{{ site.development.baseurl | append: "/cs" | append: page.handle }}{% endif %}">
+                <span class="fi fi-cz"></span>
+                CS
+              </a>
             {% endif %}
-          {% endfor %}
+          </div>
         </div>
-      </nav>
-    {%- endif -%}
-    <nav class="language-switcher">
-      {% if page.name contains "index" %}
-        <a href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/">
-          <span class="fi fi-gb to-background"></span>
-          <span class="fi fi-us to-background"></span>
-          EN
-        </a>
-        <a href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: "/cs" }}{% else %}{{ site.development.baseurl | append: "/cs" }}{% endif %}">
-          <span class="fi fi-cz to-background"></span>
-          CS
-        </a>
-      {% else %}
-        <a href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: page.handle }}{% else %}{{ site.development.baseurl | append: page.handle }}{% endif %}">
-          <span class="fi fi-gb to-background"></span>
-          <span class="fi fi-us to-background"></span>
-          EN
-        </a>
-        <a href="{% if jekyll.environment == 'production' %}{{ site.production.baseurl | append: "/cs" | append: page.handle }}{% else %}{{ site.development.baseurl | append: "/cs" | append: page.handle }}{% endif %}">
-          <span class="fi fi-cz to-background"></span>
-          CS
-        </a>
-      {% endif %}
-    </nav>
-  </div>
-
-  </div>
+      {%- endif -%}
+    </div>
+  </nav>
 </header>
