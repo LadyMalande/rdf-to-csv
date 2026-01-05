@@ -97,11 +97,11 @@ sitemap: false
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="conversionMethod" id="conversionBigFile" value="BIGFILESTREAMING" />
-            <label class="form-check-label" for="conversionBigFile">Big File Streaming</label>
+            <label class="form-check-label" for="conversionBigFile">Big File Streaming <a href="#comment-3"><sup class="comment-marker" data-index="3">[3]</sup></a></label>
         </div>
         <div class="form-check mb-3">
             <input class="form-check-input" type="radio" name="conversionMethod" id="conversionStreaming" value="STREAMING" />
-            <label class="form-check-label" for="conversionStreaming">Streaming</label>
+            <label class="form-check-label" for="conversionStreaming">Streaming <a href="#comment-3"><sup class="comment-marker" data-index="3">[3]</sup></a></label>
         </div>
         <!-- first normal form parameter input -->
         <label class="form-label fw-bold">Jak se chovat k seznamům hodnot v buňkách:</label>
@@ -167,6 +167,7 @@ sitemap: false
     <div class="card-body">
       <div class="alert alert-info" id="comment-1"><strong>[1]</strong> Pokud nahrajete RDF soubor i vyplníte URL, bude konverze provedena na datech z URL.</div>
       <div class="alert alert-info" id="comment-2"><strong>[2]</strong> Konvertor vytvoří více tabulek pouze v případě, že jsou data pro takové rozdělení vhodná. Pokud data vhodná k rozdělení nejsou, vytvoří jednu tabulku.</div>
+      <div class="alert alert-info" id="comment-3"><strong>[3]</strong> Metody Big File Streaming a Streaming fungují pouze se soubory .nt (formát serializace N-Triples).</div>
     </div>
 </div>
 

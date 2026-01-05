@@ -97,11 +97,11 @@ sitemap: false
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="conversionMethod" id="conversionBigFile" value="BIGFILESTREAMING" />
-            <label class="form-check-label" for="conversionBigFile">Big File Streaming</label>
+            <label class="form-check-label" for="conversionBigFile">Big File Streaming <a href="#comment-3"><sup class="comment-marker" data-index="3">[3]</sup></a></label>
         </div>
         <div class="form-check mb-3">
             <input class="form-check-input" type="radio" name="conversionMethod" id="conversionStreaming" value="STREAMING" />
-            <label class="form-check-label" for="conversionStreaming">Streaming</label>
+            <label class="form-check-label" for="conversionStreaming">Streaming <a href="#comment-3"><sup class="comment-marker" data-index="3">[3]</sup></a></label>
         </div>
         <!-- first normal form parameter input -->
         <label class="form-label fw-bold">How to treat lists of values in cells:</label>
@@ -170,6 +170,9 @@ sitemap: false
       <div class="alert alert-info" id="comment-1"><strong>[1]</strong> If you load a file and fill in URL, the conversion will use the URL as the original RDF file.</div>
       <div class="alert alert-info" id="comment-2">
           <strong>[2]</strong> The converter creates multiple tables only if the data are suitable for dividing into multiple tables. If the data are not suitable for splitting into multiple tables, the converter creates only one table.
+      </div>
+      <div class="alert alert-info" id="comment-3">
+          <strong>[3]</strong> Big File Streaming and Streaming methods work only with .nt files (N-Triples serialization format).
       </div>
     </div>
 </div>
