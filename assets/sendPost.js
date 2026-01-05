@@ -75,57 +75,38 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
   }
 
   try {
-
-
-    const response = await fetch("https://rdf-to-csvw.onrender.com/rdftocsvw", {
+    // Start async conversion
+    const response = await fetch("https://rdf-to-csvw.onrender.com/rdftocsvw/async", {
       method: "POST",
-      body: formData // Let the browser set the content-type
+      body: formData
     });
 
     if (response.status == null) {
       throw new Error(`Error: CORS`);
-    } else if (response.status === 409) {
-      // Handle file locking error
-      alert('The file is currently in use. Please try again later.');
+    } else if (response.status === 400) {
+      throw new Error(`Error: ${response.status} - Invalid request parameters`);
     } else if (!response.ok) {
-      // If the response is not ok, throw an error
       throw new Error(`Error: ${response.status} - ${response.statusText}`);
     }
 
-    const data = await response.blob();
-    const file = new Blob([data], { type: 'application/zip' });
+    // Get session ID from response
+    const sessionData = await response.json();
+    const sessionId = sessionData.sessionId;
 
-    const fileURL = URL.createObjectURL(file);
-
-    const anchorTag = document.createElement('a');
-    anchorTag.href = fileURL;
-    anchorTag.target = '_blank';
-    let inputField = fileURLElement.value.trim();
-    if (inputField != "") {
-      // SECURITY: Sanitize filename from URL
-      const sanitizedURL = sanitizeText(fileURLElement.value.split('/').pop().split('?')[0]);
-      anchorTag.download = sanitizedURL + '-resultingCSVW.zip';
-    } else {
-      // SECURITY: Sanitize filename before use
-      const fileName = sanitizeText(fileInput.files[0].name);
-      anchorTag.download = fileName + ".zip";
+    if (!sessionId) {
+      throw new Error('No session ID returned from server');
     }
-    //anchorTag.download = 'resultingCSVW.zip'; 
-    document.body.appendChild(anchorTag);
-    anchorTag.click();
-    document.body.removeChild(anchorTag);
 
+    // Show polling message
     errorMessageElement.style.display = 'block';
-    const pageLang = document.documentElement.lang;
-    if (pageLang == "cs") {
-      errorMessageElement.style.color = 'green';
-      setTextSafely(errorMessageElement, 'Konvertovaný soubor úspěšně dorazil.');
-    } else {
-      errorMessageElement.style.color = 'green';
-      setTextSafely(errorMessageElement, 'The converted file has been successfully delivered.');
-    }
+    errorMessageElement.style.color = 'blue';
+    setTextSafely(errorMessageElement, 
+      pageLang === 'cs'
+        ? 'Konverze probíhá... Prosím čekejte.'
+        : 'Conversion in progress... Please wait.');
 
-
+    // Poll for result
+    pollConversionStatus(sessionId, pageLang);
 
   } catch (e) {
     // SECURITY: Display safe error message without exposing technical details
@@ -138,6 +119,96 @@ document.getElementById('rdfandconfiguration').addEventListener('submit', async 
     console.error('Form submission error:', e);
   }
 });
+
+// Poll the status endpoint until computation is complete
+async function pollConversionStatus(sessionId, pageLang) {
+  const maxAttempts = 120; // 10 minutes max (5 second intervals)
+  let attempts = 0;
+
+  const pollInterval = setInterval(async () => {
+    attempts++;
+
+    if (attempts > maxAttempts) {
+      clearInterval(pollInterval);
+      errorMessageElement.style.color = 'red';
+      setTextSafely(errorMessageElement,
+        pageLang === 'cs'
+          ? 'Konverze trvá příliš dlouho. Zkuste to prosím později.'
+          : 'Conversion is taking too long. Please try again later.');
+      return;
+    }
+
+    try {
+      const statusResponse = await fetch(`https://rdf-to-csvw.onrender.com/status/${sessionId}`);
+
+      if (statusResponse.status === 200) {
+        // Computation complete - download the file
+        clearInterval(pollInterval);
+        
+        const blob = await statusResponse.blob();
+        const fileURL = URL.createObjectURL(blob);
+        const anchorTag = document.createElement('a');
+        anchorTag.href = fileURL;
+        anchorTag.download = `conversion-${sessionId}.zip`;
+        document.body.appendChild(anchorTag);
+        anchorTag.click();
+        document.body.removeChild(anchorTag);
+        URL.revokeObjectURL(fileURL);
+
+        errorMessageElement.style.color = 'green';
+        setTextSafely(errorMessageElement,
+          pageLang === 'cs'
+            ? 'Konvertovaný soubor úspěšně dorazil.'
+            : 'The converted file has been successfully delivered.');
+
+      } else if (statusResponse.status === 202) {
+        // Still computing - update message
+        const statusData = await statusResponse.json();
+        errorMessageElement.style.color = 'blue';
+        setTextSafely(errorMessageElement,
+          pageLang === 'cs'
+            ? `Konverze probíhá... (${statusData.status || 'COMPUTING'})`
+            : `Conversion in progress... (${statusData.status || 'COMPUTING'})`);
+
+      } else if (statusResponse.status === 404) {
+        // Session not found
+        clearInterval(pollInterval);
+        errorMessageElement.style.color = 'red';
+        setTextSafely(errorMessageElement,
+          pageLang === 'cs'
+            ? 'Relace nebyla nalezena. Zkuste konverzi znovu.'
+            : 'Session not found. Please try the conversion again.');
+
+      } else if (statusResponse.status === 500) {
+        // Computation failed
+        clearInterval(pollInterval);
+        const errorData = await statusResponse.json();
+        errorMessageElement.style.color = 'red';
+        setTextSafely(errorMessageElement,
+          pageLang === 'cs'
+            ? `Konverze selhala: ${errorData.message || 'Neznámá chyba'}`
+            : `Conversion failed: ${errorData.message || 'Unknown error'}`);
+
+      } else {
+        // Unexpected status
+        clearInterval(pollInterval);
+        errorMessageElement.style.color = 'red';
+        setTextSafely(errorMessageElement,
+          pageLang === 'cs'
+            ? 'Neočekávaná chyba při kontrole stavu konverze.'
+            : 'Unexpected error while checking conversion status.');
+      }
+
+    } catch (e) {
+      clearInterval(pollInterval);
+      errorMessageElement.style.color = 'red';
+      const safeMessage = getSafeErrorMessage(e, pageLang);
+      setTextSafely(errorMessageElement, safeMessage);
+      console.error('Status polling error:', e);
+    }
+
+  }, 1000); // Poll every 5 seconds
+}
 
 
 // Check if at least one of the file option is used
