@@ -377,14 +377,16 @@ observer.observe(errorMessageElement, {
 });
 
 // Setting of the toggle button for choosing more parameters
-window.addEventListener('DOMContentLoaded', () => {
+function initializeHealthCheck() {
   const toggleLabel = document.getElementById('toggleButton');
   const pageLang = document.documentElement.lang;  // Get the page language
 
-  if (pageLang === "cs") {
-    toggleLabel.setAttribute('data-tooltip', 'Klikněte pro vybrání dalších parametrů');
-  } else {
-    toggleLabel.setAttribute('data-tooltip', 'Click to choose from other parameters');
+  if (toggleLabel) {
+    if (pageLang === "cs") {
+      toggleLabel.setAttribute('data-tooltip', 'Klikněte pro vybrání dalších parametrů');
+    } else {
+      toggleLabel.setAttribute('data-tooltip', 'Click to choose from other parameters');
+    }
   }
 
   // Check the service health every 5 seconds
@@ -392,7 +394,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Start with the spinning wheel until the first check
   showLoadingWheel();
-});
+}
+
+// Run initialization when DOM is ready or immediately if already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeHealthCheck);
+} else {
+  // DOM is already loaded, run immediately
+  initializeHealthCheck();
+}
 
 // Function for pinging web service if its available
 function checkServiceHealth() {
