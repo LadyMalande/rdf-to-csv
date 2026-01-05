@@ -409,7 +409,7 @@ rdf-to-csv.github.io/
 ├── assets/
 │   ├── security.js          # NEW: Security utility functions
 │   ├── sendPost.js          # UPDATED: Uses security functions
-│   └── dropBox.css
+│   └── converter.css
 ├── _includes/
 │   └── head.html            # UPDATED: Security headers, SRI
 ├── _layouts/

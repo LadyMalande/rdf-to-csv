@@ -277,6 +277,8 @@ function fetchWithTimeout(url, options, timeout = 5000) {
 // Clear the file loading input
 function clearFileInput() {
   document.getElementById('file').value = '';
+  // Hide the clear button
+  document.getElementById('clearButton').style.display = 'none';
   // If no file is selected, revert to the original text
   const pageLang = document.documentElement.lang;
   if (pageLang == "cs") {
@@ -298,6 +300,8 @@ fileInput.addEventListener('change', function () {
     // Change the span text to the file name
     const truncatedFileName = truncateString(sanitizedName, 17);
     spanForFileInput.textContent = (truncateString.length == sanitizedName) ? sanitizedName : truncatedFileName + "...";
+    // Show the clear button
+    document.getElementById('clearButton').style.display = 'flex';
   } else {
     // If no file is selected, revert to the original text
     const pageLang = document.documentElement.lang;
@@ -306,7 +310,8 @@ fileInput.addEventListener('change', function () {
     } else {
       spanForFileInput.textContent = "...or select a file";
     }
-
+    // Hide the clear button
+    document.getElementById('clearButton').style.display = 'none';
   }
 });
 
