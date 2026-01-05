@@ -182,12 +182,41 @@ async function pollConversionStatus(sessionId, pageLang) {
       } else if (statusResponse.status === 500) {
         // Computation failed
         clearInterval(pollInterval);
-        const errorData = await statusResponse.json();
+        
+        let userMessage = '';
+        try {
+          const errorData = await statusResponse.json();
+          const errorMsg = errorData.message || errorData.error || '';
+          
+          // Check for specific error patterns and provide user-friendly messages
+          if (errorMsg.includes('Invalid file extension') || 
+              errorMsg.includes('Expecting extension .nt')) {
+            userMessage = pageLang === 'cs'
+              ? 'Chyba: Metody "Big File Streaming" a "Streaming" vyžadují soubory ve formátu N-Triples s příponou .nt. Použijte prosím metodu "RDF4J" nebo soubor s příponou .nt.'
+              : 'Error: "Big File Streaming" and "Streaming" methods require N-Triples format files with .nt extension. Please use "RDF4J" method or a .nt file.';
+          } else if (errorMsg.includes('OutOfMemoryError') || errorMsg.includes('memory')) {
+            userMessage = pageLang === 'cs'
+              ? 'Chyba: Soubor je příliš velký. Zkuste prosím metodu "Big File Streaming".'
+              : 'Error: File is too large. Please try "Big File Streaming" method.';
+          } else if (errorMsg.includes('ParseException') || errorMsg.includes('parsing')) {
+            userMessage = pageLang === 'cs'
+              ? 'Chyba: Soubor obsahuje neplatná RDF data. Zkontrolujte prosím formát souboru.'
+              : 'Error: File contains invalid RDF data. Please check the file format.';
+          } else {
+            // Generic error message
+            userMessage = pageLang === 'cs'
+              ? `Konverze selhala: ${errorMsg || 'Neznámá chyba'}`
+              : `Conversion failed: ${errorMsg || 'Unknown error'}`;
+          }
+        } catch (parseError) {
+          // If we can't parse the JSON, show generic message
+          userMessage = pageLang === 'cs'
+            ? 'Konverze selhala. Zkuste to prosím znovu.'
+            : 'Conversion failed. Please try again.';
+        }
+        
         errorMessageElement.style.color = 'red';
-        setTextSafely(errorMessageElement,
-          pageLang === 'cs'
-            ? `Konverze selhala: ${errorData.message || 'Neznámá chyba'}`
-            : `Conversion failed: ${errorData.message || 'Unknown error'}`);
+        setTextSafely(errorMessageElement, userMessage);
 
       } else {
         // Unexpected status
