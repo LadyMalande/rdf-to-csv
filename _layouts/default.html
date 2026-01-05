@@ -19,7 +19,7 @@
     {%- include footer.html -%}
     
     <!-- Security: Load security utilities before other scripts -->
-    <script src="{% if jekyll.environment == 'production' %}{{ site.production.baseurl }}{% else %}{{ site.development.baseurl }}{% endif %}/assets/security.js"></script>
+    <script src="{{ 'assets/security.js' | relative_url }}"></script>
 
   </body>
 
