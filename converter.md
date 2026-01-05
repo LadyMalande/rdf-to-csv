@@ -48,11 +48,11 @@ How to use the RDFtoCSV Converter:
     <div class="top-and-bottom-margin">
         <label>Choose how many CSV tables you wish to get:</label>
         <label>
-            <input type="radio" name="tables" id="basicQuery" value="ONE" checked="checked" />
+            <input type="radio" name="table" id="basicQuery" value="ONE" checked="checked" />
             One table
         </label>
         <label>
-            <input type="radio" name="tables" id="splitQuery" value="MORE" />
+            <input type="radio" name="table" id="splitQuery" value="MORE" />
             Multiple tables <a href="#comment-2"><sup class="comment-marker" data-index="2">[2]</sup></a>
         </label>
     </div>
@@ -63,15 +63,15 @@ How to use the RDFtoCSV Converter:
         <!-- Conversion method parameters input -->
         <label>Choose a conversion method:</label><br />
         <label>
-            <input type="radio" name="choice" value="RDF4J" checked="checked" />
+            <input type="radio" name="conversionMethod" value="RDF4J" checked="checked" />
             RDF4J
         </label>
         <label>
-            <input type="radio" name="choice" value="BIGFILESTREAMING" />
+            <input type="radio" name="conversionMethod" value="BIGFILESTREAMING" />
             Big File Streaming
         </label>
         <label>
-            <input type="radio" name="choice" value="STREAMING" />
+            <input type="radio" name="conversionMethod" value="STREAMING" />
             Streaming
         </label>
         <br />
