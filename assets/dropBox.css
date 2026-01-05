@@ -192,7 +192,6 @@ label.label input[type="file"] {
 
 /* Tooltip (bubble) styling */
 #toggleButton:hover::after {
-  content: "Not yet available - see this feature in next versions of RDFtoCSV!"; /* The tooltip text */
   position: absolute;
   top: -40px; /* Position above the button */
   left: 50%;
