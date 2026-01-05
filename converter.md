@@ -38,7 +38,7 @@ sitemap: false
                     <input type="file" name="file" id="file" accept=".nq, .nt, .jsonl, .jsonld, .n3, .ndjson, .ndjsonld, .owl, .rdf, .rdfs, .rj, .trig, .trigs, .trix, .ttl, .ttls" required />
                     <span id="spanForFileInput">...or select a file...</span>
                 </label>
-                <button class="clear-button" id="clearButton">
+                <button type="button" class="clear-button" id="clearButton">
                     <i class="fa-regular fa-trash-can"></i>
                 </button>
             </div>

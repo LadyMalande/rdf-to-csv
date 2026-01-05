@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: relative;
   background-color: transparent;
   z-index: 1;
   pointer-events: none;
@@ -50,15 +50,9 @@
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  max-width: 150px;
   display: inline-block;
   border: none;
-  margin-top: 10px;
   white-space: nowrap;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
   pointer-events: all;
 }
 
@@ -91,19 +85,14 @@ a i {
   background-color: #dc3545;
   border: none;
   border-radius: 0.375rem;
-  padding: 8px;
+  padding: 6px 12px;
   color: white;
   cursor: pointer;
   display: none;
   align-items: center;
-  font-size: 16px;
-  flex-direction: column;
+  font-size: 14px;
   justify-content: center;
-  position: absolute;
-  left: 10px;
-  top: 15px;
-  width: 32px;
-  height: 32px;
+  margin-top: 8px;
   transition: background-color 0.3s ease;
   z-index: 3;
 }
@@ -114,15 +103,11 @@ a i {
 
 #holderForFileInputAndBin {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  margin-top: 50px;
-  white-space: nowrap;
   position: relative;
-  gap: 10px;
-  max-width: 200px;
+  width: 100%;
 }
 
 /*Important*/
